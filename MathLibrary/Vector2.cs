@@ -7,6 +7,47 @@ namespace MathLibrary
         public float X;
         public float Y;
 
+        public Vector2(float x, float y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        /// <summary>
+        /// Gets the length of the vector
+        /// </summary>
+        public float Magnitude
+        {
+            get
+            {
+                return (float)Math.Sqrt(X * X + Y * Y);
+            }
+        }
+
+        /// <summary>
+        /// Gets the normalized version of this vector without changing it
+        /// </summary>
+        public Vector2 Normalized
+        {
+            get
+            {
+                Vector2 value = this;
+                return value.Normalize();
+            }
+        }
+
+        /// <summary>
+        /// Changes this vector to have a magnitude that is equal to one
+        /// </summary>
+        /// <returns>The result of the normalization. Returns an emply vector if the magnitude is zero</returns>
+        public Vector2 Normalize()
+        {
+            if (Magnitude == 0)
+                return new Vector2();
+
+            return this / Magnitude;
+        }
+
         /// <summary>
         /// Adds the x value of the second vector to the first, and adds the y value of the second vector to the first.
         /// </summary>
@@ -26,7 +67,7 @@ namespace MathLibrary
         /// <returns>The reult of the vector subtraction</returns>
         public static Vector2 operator -(Vector2 lhs, Vector2 rhs)
         {
-            return new Vector2 { X = lhs.X + rhs.X, Y = lhs.Y + rhs.Y };
+            return new Vector2 { X = lhs.X - rhs.X, Y = lhs.Y - rhs.Y };
         }
 
         /// <summary>
@@ -57,7 +98,7 @@ namespace MathLibrary
         /// <param name="lhs">The left side of the comparison</param>
         /// <param name="rhs">The right side of the comparison</param>
         /// <returns>True if the x values of both vectors match and the y values match</returns>
-        public static bool operator ==(Vector2 lhs, Vector2 rhs) 
+        public static bool operator ==(Vector2 lhs, Vector2 rhs)
         {
             return lhs.X == rhs.X && lhs.Y == rhs.Y;
         }

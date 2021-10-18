@@ -31,7 +31,7 @@ namespace MathForGames
         /// Calls update for every actor in the scene. 
         /// Calls start for the actor if it hasn't already been called.
         /// </summary>
-        public virtual void Update()
+        public virtual void Update(float deltaTime)
         {
             for (int i = 0; i < _actors.Length; i++)
             {
@@ -40,7 +40,7 @@ namespace MathForGames
                     _actors[i].Start();
                 }
 
-                _actors[i].Update();
+                _actors[i].Update(deltaTime);
 
                 //Check for collision
                 for (int j = 0; j < _actors.Length; j++)
@@ -110,10 +110,10 @@ namespace MathForGames
 
             //Copy all values except the actor we don't want into the new array
             int j = 0;
-            for(int i = 0; i < tempArray.Length; i++)
+            for (int i = 0; i < tempArray.Length; i++)
             {
                 //If the actor that the loop is on is not the one to remove...
-                if(_actors[i] != actor)
+                if (_actors[i] != actor)
                 {
                     //...add the actor into the new array and increment the temp array counter
                     tempArray[j] = _actors[i];
@@ -133,7 +133,7 @@ namespace MathForGames
                 //...set the old array to be the new array
                 _actors = tempArray;
             }
-           
+
             return actorRemoved;
         }
     }
