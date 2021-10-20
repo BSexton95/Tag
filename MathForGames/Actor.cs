@@ -17,6 +17,7 @@ namespace MathForGames
         private Icon _icon;
         private string _name;
         private Vector2 _position;
+        private Vector2 _forward = new Vector2(1,0);
         private bool _started;
         private Player _player;
         private float _speed = 2;
@@ -40,7 +41,15 @@ namespace MathForGames
         {
             get { return _icon; }
         }
+
+        public Vector2 Forward
+        {
+            get { return _forward; }
+            set { _forward = value; }
+        }
+
         public Actor() { }
+
         public Actor(char icon, float x, float y, Color color, string name = "Actor") :
             this(icon, new Vector2 { X = x, Y = y }, color, name)
         { }

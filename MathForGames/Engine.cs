@@ -63,7 +63,7 @@ namespace MathForGames
             Scene scene = new Scene();
 
             Player player = new Player('@', 10, 10, 100, Color.VIOLET, "Player");
-            Enemy enemy = new Enemy('A', 200, 5, Color.RED, 200, player, "Enemy");
+            Enemy enemy = new Enemy('A', 200, 5, Color.RED, 50, player, "Enemy");
 
 
             scene.AddActor(enemy);
@@ -89,7 +89,7 @@ namespace MathForGames
         private void Draw()
         {
             Raylib.BeginDrawing();
-            Raylib.ClearBackground(Color.BLACK);
+            Raylib.ClearBackground(Color.LIGHTGRAY);
 
             //Adds all actor icons to buffer
             _scenes[_currentSceneIndex].Draw();

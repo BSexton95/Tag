@@ -9,8 +9,8 @@ namespace MathForGames
     class Enemy : Actor
     {
         private float _speed;
-        private Player _player;
         private Vector2 _velocity;
+        private Actor _target;
 
         public Vector2 Velocity
         {
@@ -24,26 +24,31 @@ namespace MathForGames
             set { _speed = value; }
         }
 
-        public Enemy(char icon, float x, float y, Color color, float speed, Player player, string name)
+        public Enemy(char icon, float x, float y, Color color, float speed, Actor target, string name)
             : base(icon, x, y, color, name)
         {
             _speed = speed;
-            _player = player;
+            _target = target;
         }
 
         public override void Update(float deltaTime)
         {
 
-            Vector2 enemyDistance = _player.Position - Position;
+            Vector2 enemyDistance = (_target.Position - Position).Normalized;
 
-            Velocity = enemyDistance.Normalized * _speed * deltaTime;
+            Velocity = enemyDistance * _speed * deltaTime;
 
-            Position += Velocity;
+            if(GetTargetInSight() && Vector2.Distance( Position, _target.Position) < 200 )
+                Position += Velocity;
 
             base.Update(deltaTime);
+        }
 
-            Console.WriteLine("hey");
+        public bool GetTargetInSight()
+        {
+            Vector2 directionOfTarget = (_target.Position - Position).Normalized;
 
+            return Vector2.DotProduct(directionOfTarget, Forward) > 0.5;
         }
     }
 }
