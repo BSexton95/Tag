@@ -11,6 +11,8 @@ namespace MathForGames
         private float _speed;
         private Vector2 _velocity;
         private Actor _target;
+        private float _maxViewAngle;
+        private float _maxSightDistance;
 
         public Vector2 Velocity
         {
@@ -24,11 +26,13 @@ namespace MathForGames
             set { _speed = value; }
         }
 
-        public Enemy(char icon, float x, float y, Color color, float speed, Actor target, string name)
+        public Enemy(char icon, float x, float y, Color color, float speed, float maxSightDistance, float maxViewAngle,  Actor target, string name)
             : base(icon, x, y, color, name)
         {
             _speed = speed;
             _target = target;
+            _maxViewAngle = maxViewAngle;
+            _maxSightDistance = maxSightDistance;
         }
 
         public override void Update(float deltaTime)
@@ -38,7 +42,7 @@ namespace MathForGames
 
             Velocity = enemyDistance * _speed * deltaTime;
 
-            if(GetTargetInSight() && Vector2.Distance( Position, _target.Position) < 200 )
+            if(GetTargetInSight())
                 Position += Velocity;
 
             base.Update(deltaTime);
@@ -47,8 +51,11 @@ namespace MathForGames
         public bool GetTargetInSight()
         {
             Vector2 directionOfTarget = (_target.Position - Position).Normalized;
+            float distanceToTarget = Vector2.Distance(_target.Position, Position);
 
-            return Vector2.DotProduct(directionOfTarget, Forward) > 0.5;
+            float dotProduct = Vector2.DotProduct(directionOfTarget, Forward);
+
+            return Math.Acos(dotProduct) < _maxViewAngle && distanceToTarget < _maxSightDistance;
         }
     }
 }
